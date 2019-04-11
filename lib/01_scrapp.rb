@@ -43,19 +43,69 @@ require 'rubygems'
 #	doc.xpath('//h3[@class = "r"]/a[@class = "l"]').each do |node|
 #	  puts node.text
 #	end
+#	
+#	
+#	
 
 
-#def crypto_scrapper
+def crypto_scrapper
 
-page = Nokogiri::HTML(open("https://coinmarketcap.com/all/views/all/"))   
-crypto_name =  page.css("td[class='currency-name']")
-puts crypto_name
+@page = Nokogiri::HTML(open("https://coinmarketcap.com/all/views/all/"))
+
+@list = @page.css('td[class="text-left col-symbol"]')
+@cours = @page.css('a[class="price"]')
+@final = Hash.new
+
+
+@currency_list = []
+@cours_list = []
+ i = 0
+while i != @list.count do 
+	@cours_list << @cours[i].text
+	@currency_list << @list[i].text
+	@final[@currency_list[i]] = @cours_list[i]
+
+i += 1
+end
+
+
+
+
+#[@currency_list.zip @cours_list]
+
+
+puts @final
 pry
+end
+
+crypto_scrapper
+
+
+
+
+
+
+
+
+
+ #currency_name = []
+ #currency_name << page.xpath('//body//a[@class=\"link-secondary\"')
+ #pry
+ #puts currency_name[0].text
+#end
+
+#crypto_scrapper
+#/html/body/div[2]/div/div[1]/div[2]/div[3]/div[2]/div/table/tbody/tr[2]/td[2]
+
+
+
+#currency_name << @page.xpath('/html/body/div[2]/div/div[1]/div[2]/div[3]/div[2]/div/table/tbody/tr[1]/td[2]/a')
+
+#crypto_name =  page.css("td[class='currency-name']")
 
 #/html/body/div[2]/div/div[1]/div[2]/div[3]/div[2]/div/table/tbody
 #puts crypto_name
-#
-#end
 
+#crypto_scrapper
 
 #crypto_scrapper
